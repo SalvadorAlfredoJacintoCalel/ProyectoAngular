@@ -1,0 +1,9 @@
+services:
+  angular-app:
+    build: .
+    ports:
+      - "4200:80"
+    container_name: mi-app-angular
+    restart: unless-stopped
+    volumes:
+      - ./proyecto:/usr/share/nginx/html
