@@ -7,6 +7,6 @@ export const routes: Routes = [
     { path: '', component: ListComentarios},
     { path: 'agregar', component: AgregarEditarComentario},
     { path: 'editar/ :id', component: AgregarEditarComentario},
-    { path: 'ver/ id:', component: VerComentarios},
+    { path: 'ver/:id', component: VerComentarios},
     { path: '**', redirectTo: '', pathMatch: 'full'}
 ];

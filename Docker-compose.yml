@@ -1,9 +1,12 @@
+version: "3.9"
 services:
-  angular-app:
-    build: .
-    ports:
-      - "4200:80"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: mi-app-angular
+    ports:
+      - "4200:80"   # abre http://localhost:4200
     restart: unless-stopped
     volumes:
-      - ./proyecto:/usr/share/nginx/html
+      - ./proyecto:/usr/share/nginx/html   # monta tu carpeta local en Nginxs

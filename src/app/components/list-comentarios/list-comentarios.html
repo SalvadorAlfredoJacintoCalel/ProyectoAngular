@@ -16,12 +16,14 @@
         <th></th>
     </tr>
     <tbody>
-        <tr *ngFor="let comentario of listComentarios">
-            <td>{{ comentario.titulo }}</td>
+            @for (comentario of listComentarios; track comentario.id){
+                <tr>
+            <td><a [routerLink]="['/ver', comentario.id]"> {{ comentario.titulo}}</a></td>
             <td>{{ comentario.creador }}</td>
             <td><button class="btn btn-warning btn-sm float-end">Editar</button></td>
             <td><button class="btn btn-danger btn-sm float-end">Eliminar</button></td>
         </tr>
+    }
     </tbody>
 </table>
 
