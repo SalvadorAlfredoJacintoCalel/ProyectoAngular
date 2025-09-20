@@ -1,0 +1,36 @@
+name: CI/CD Angular Docker
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build Angular producción
+        run: npm run build -- --configuration production --base-href=/
+
+      - name: Deploy en VPS via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPSHOST }}
+          username: ${{ secrets.VPSUSER }}
+          password: ${{ secrets.VPSPASSWORD }}
+          script: |
+            cd /var/www/angular-app
+            docker-compose down
+            docker-compose up -d --build.yml
