@@ -7,6 +7,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write  # 🔥 PERMISO ESENCIAL para push a GHCR
 
     steps:
       - name: Checkout código
@@ -24,13 +27,13 @@ jobs:
       - name: Build Angular producción
         run: npm run build -- --configuration production --base-href=/
 
-      # 🔥 SOLUCIÓN DEFINITIVA: Usar la acción oficial de Docker Login
+      # ✅ Usar GITHUB_TOKEN (ya incluido por GitHub)
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Construir imagen Docker
         run: |
