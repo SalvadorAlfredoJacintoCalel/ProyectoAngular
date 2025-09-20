@@ -24,10 +24,13 @@ jobs:
       - name: Build Angular producción
         run: npm run build -- --configuration production --base-href=/
 
-      # 🔥 CORRECCIÓN: Formato correcto del comando de login
-      - name: Login a GitHub Container Registry
-        run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      # 🔥 SOLUCIÓN DEFINITIVA: Usar la acción oficial de Docker Login
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Construir imagen Docker
         run: |
