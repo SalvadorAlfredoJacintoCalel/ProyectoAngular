@@ -24,15 +24,15 @@ jobs:
       - name: Build Angular producción
         run: npm run build -- --configuration production --base-href=/
 
+      # 🔥 CAMBIO: Usar PAT en lugar de GITHUB_TOKEN
       - name: Login a GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Construir imagen Docker
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           docker build -t ghcr.io/$REPO_NAME:latest .
 
-      # 🔥 CORRECCIÓN: Usar la misma variable REPO_NAME en minúsculas
       - name: Push imagen a GHCR
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
