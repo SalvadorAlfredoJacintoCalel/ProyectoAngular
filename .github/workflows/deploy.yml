@@ -24,9 +24,10 @@ jobs:
       - name: Build Angular producción
         run: npm run build -- --configuration production --base-href=/
 
-      # 🔥 CAMBIO: Usar PAT en lugar de GITHUB_TOKEN
+      # 🔥 CORRECCIÓN: Formato correcto del comando de login
       - name: Login a GitHub Container Registry
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Construir imagen Docker
         run: |
